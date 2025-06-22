@@ -13,19 +13,22 @@ jobs:
         os: [ macos-latest, windows-latest ]
 
     steps:
-    - name: Check out git repository
-      uses: actions/checkout@v2
+    - name: 1. 설계도 가져오기 (Checkout)
+      uses: actions/checkout@v3
 
-    - name: Install Node.js
-      uses: actions/setup-node@v2
+    - name: 2. 작업대 설치하기 (Setup Node)
+      uses: actions/setup-node@v3
       with:
         node-version: '18'
 
-    - name: Install Dependencies
+    - name: 3. 부품 조립하기 (Install Dependencies)
       run: npm install
 
-    - name: Build/release Electron app
-      uses: samuelmeuli/action-electron-builder@v1
+    - name: 4. 프로그램 만들기 (Build/Package)
+      run: npm run pack
+
+    - name: 5. 완성품 포장해서 올려놓기 (Upload Artifact)
+      uses: actions/upload-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        release: false
+        name: Faperlink-App-${{ matrix.os }}
+        path: dist/
