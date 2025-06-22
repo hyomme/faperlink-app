@@ -32,11 +32,13 @@ jobs:
       - name: 3. Install all dependencies
         run: npm install
 
-      # 4단계: 부품과 설계도로 실제 프로그램을 만듭니다.
+      # 4단계: 부품과 설계도로 실제 프로그램을 만듭니다. (출입증 전달 코드를 여기에 포함)
       - name: 4. Create app packages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run pack
 
-      # 5단계: 완성된 프로그램을 다운로드받을 수 있게 포장해서 올려놓습니다. (가장 중요한 최신 부품 v4 사용)
+      # 5단계: 완성된 프로그램을 다운로드받을 수 있게 포장해서 올려놓습니다. (최신 부품 v4 사용)
       - name: 5. Upload the finished apps
         uses: actions/upload-artifact@v4
         with:
