@@ -1,0 +1,34 @@
+name: Create App Installers
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    steps:
+      - name: 1. Check out project files
+        uses: actions/checkout@v3
+
+      - name: 2. Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 3. Install all dependencies
+        run: npm install
+
+      - name: 4. Create app packages
+        run: npm run pack
+
+      - name: 5. Upload the finished apps
+        uses: actions/upload-artifact@v3
+        with:
+          name: Faperlink-App-${{ matrix.os }}
+          path: dist
